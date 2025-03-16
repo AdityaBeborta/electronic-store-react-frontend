@@ -1,0 +1,25 @@
+Outlet:
+----------------------
+Parent Component (Dashboard):
+Contains an Outlet component, which acts as a placeholder for child routes.
+Renders the Dashboard component along with any nested route content.
+Child Component (Profile):
+Gets displayed inside the Outlet when the dashboard/profile route is matched.
+/dashboard/profile: Displays the Dashboard component and renders the Profile component inside the Outlet.
+
+children
+-----------------------
+In React, children is a special prop that represents the content you pass between the opening and closing tags of a component. It is not a predefined component, but rather a feature of React. Here's how it works:
+
+Explanation of children
+Purpose of children:
+
+children allows a component to act as a wrapper or container for other elements or components.
+It enables flexible composition, where you can nest any kind of React element inside a parent component.
+
+setState -- onChange Updation Key Insight
+------------------------------------------------------------------------
+The state reflects exactly what is displayed in the input field at any given moment. If you type a, then bc, then de sequentially into the same input field, the value of the input is updated to "abcde", and the state follows suit.
+
+Why It Doesn’t Concatenate Programmatically
+React’s onChange captures the current value of the input field, not the delta (difference) between the previous value and the new one. Thus, it replaces the old state with the new value rather than appending or concatenating.
