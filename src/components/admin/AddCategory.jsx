@@ -6,8 +6,9 @@ export const AddCategory = () => {
   const {
     register, // Registers input fields
     handleSubmit, // Handles form submission
-    formState: { errors }, // Stores validation errors
+    formState, // Stores validation errors
   } = useForm();
+
   console.log(useForm());
   
 
@@ -34,11 +35,11 @@ export const AddCategory = () => {
                   required: "Category Title is required",
                 })}
                 placeholder="Please enter the category name"
-                isInvalid={errors?.categoryTitle?.message}
+                isInvalid={formState?.errors?.categoryTitle?.message}
               />
               {/* for showing error message */}
               <Form.Control.Feedback type="invalid">
-                {errors?.categoryTitle?.message}
+                {formState?.errors?.categoryTitle?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
