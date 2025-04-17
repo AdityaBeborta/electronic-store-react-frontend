@@ -11,14 +11,16 @@ export const privateAxios = axios.create({
 });
 
 // add the authorization
-
 privateAxios.interceptors.request.use((config) => {
+  console.log(config);
+
   // get the token
   const token = getTokenFromLocalStorage();
   // if token is not empty then add it in the header
   if (token) {
     console.log("token is not empty");
     config.headers["Authorization"] = `Bearer ${token}`;
+    console.log("after editing the config", config);
   }
   return config;
 });

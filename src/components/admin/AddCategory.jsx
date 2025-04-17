@@ -1,5 +1,7 @@
 import { Button, Card, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { addCategory } from "../../services/axios.categories";
+import { toast } from "react-toastify";
 
 export const AddCategory = () => {
   // 1️⃣ Initialize the form using useForm()
@@ -7,14 +9,23 @@ export const AddCategory = () => {
     register, // Registers input fields
     handleSubmit, // Handles form submission
     formState, // Stores validation errors
+    reset,
   } = useForm();
-
-  console.log(useForm());
-  
 
   // 2️⃣ Form submission handler
   const onSubmit = (data) => {
     console.log("Form Data:", data);
+
+    addCategory(data)
+      .then((response) => {
+        console.log(response);
+        toast.success("category successfully added");
+        reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("something went wrong");
+      });
   };
 
   return (
