@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 export const SideMenu = () => {
   return (
     <>
-      <ListGroup>
+      <ListGroup className="sticky-top">
         <ListGroup.Item as={NavLink} to="/admin/home" action>
           <SiHomeassistantcommunitystore size={20} />{" "}
           <span className="ms-2">Home</span>

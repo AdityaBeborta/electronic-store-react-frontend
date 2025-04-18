@@ -1,23 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
-import { AddCategory } from "./components/admin/AddCategory";
-import { AddProduct } from "./components/admin/AddProduct";
-import { ManageOrders } from "./components/admin/ManageOrders";
-import { ManageUser } from "./components/admin/ManageUser";
-import { ViewCategories } from "./components/admin/ViewCategories";
-import { ViewProducts } from "./components/admin/ViewProducts";
-import { IndexPage } from "./pages/common/IndexPage";
+import { ViewProducts } from "./pages/admin/ViewProducts";
+import{AddCategory} from './pages/admin/AddCategory'
+import { ViewCategories } from "./pages/admin/ViewCategories";
+import { AddProduct } from "./pages/admin/AddProduct";
+import { ManageOrders } from "./pages/admin/ManageOrders";
+import { ManageUser } from "./pages/admin/ManageUser";
+import CustomNavbar from "./components/common/CustomNavbar";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { AdminHome } from "./pages/admin/AdminHome";
+import { AboutPage } from "./pages/common/AboutPage";
+import { IndexPage } from "./pages/common/IndexPage";
+import { LoginPage } from "./pages/common/LoginPage";
+import { RegistrationPage } from "./pages/common/RegistrationPage";
+import { ServicesPage } from "./pages/common/ServicesPage";
 import { Home } from "./pages/users/Home";
 import { UserDashboard } from "./pages/users/UserDashboard";
 import { UserProfile } from "./pages/users/UserProfile";
-import { AboutPage } from "./pages/common/AboutPage";
-import { LoginPage } from "./pages/common/LoginPage";
-import { ServicesPage } from "./pages/common/ServicesPage";
-import { RegistrationPage } from "./pages/common/RegistrationPage";
-import CustomNavbar from "./components/common/CustomNavbar";
+import { ADD_CATEGORY } from "./services/helper.service";
 
 
 function App() {

@@ -1,7 +1,7 @@
 import { Button, Card, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { addCategory } from "../../services/axios.categories";
 import { toast } from "react-toastify";
+import { addCategory } from "../../services/categories.service";
 
 export const AddCategory = () => {
   // 1️⃣ Initialize the form using useForm()
@@ -32,9 +32,9 @@ export const AddCategory = () => {
     <>
       <Card className="border-1 shadow">
         <Card.Body>
-          <h3 className="uppercase">
+          <h5 className="uppercase">
             Please fill in these details to add a Category !
-          </h3>
+          </h5>
           <Form onSubmit={handleSubmit(onSubmit)}>
             {/* Category Name */}
             <Form.Group>
