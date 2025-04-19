@@ -13,7 +13,8 @@ export const CategoryView = ({ categoriesData, handleCategoryDelete }) => {
           <Col md={2} className="text-center">
             <img
               src={
-                categoriesData?.categoryCoverImage != null
+                categoriesData?.categoryCoverImage != null &&
+                categoriesData?.categoryCoverImage !== ""
                   ? categoriesData?.categoryCoverImage
                   : image
               }
@@ -31,13 +32,14 @@ export const CategoryView = ({ categoriesData, handleCategoryDelete }) => {
                 size="sm"
                 variant="danger"
                 onClick={() => handleCategoryDelete(categoriesData?.categoryId)}
+                disabled={categoriesData?.products.length !== 0}
               >
                 Delete
               </Button>
               <Button size="sm" variant="success">
                 View
               </Button>
-              <Button size="sm" variant="secondary">
+              <Button size="sm" variant="primary">
                 Edit
               </Button>
             </Container>

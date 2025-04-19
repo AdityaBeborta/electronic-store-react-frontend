@@ -73,7 +73,7 @@ export const AddCategory = () => {
                 type="text"
                 name="categoryCoverImage"
                 {...register("categoryCoverImage", {
-                  required: "Category Image URL is required",
+                  
                 })}
                 placeholder="Please enter the category image URL"
               />
