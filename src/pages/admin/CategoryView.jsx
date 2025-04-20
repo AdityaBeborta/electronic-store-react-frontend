@@ -5,7 +5,7 @@ export const CategoryView = ({ categoriesData, handleCategoryDelete }) => {
     width: "100px",
     height: "100px",
   };
-
+  
   return (
     <Card className="mb-2 border shadow">
       <Card.Body>

@@ -12,19 +12,19 @@ export const ViewCategories = () => {
 
   //handler for deleting the categories
   const handleCategoryDelete = (categoryId) => {
-    //call the API to delete
-    deleteCategoryById(categoryId)
-      .then((response) => {
-        console.log(response);
-        toast.success("success fully deleted the category");
-        setCategories((prev) =>
-          prev.filter((prev) => prev.categoryId !== categoryId)
-        );
-      })
-      .catch((error) => {
-        console.log("something went wrong");
-        toast.error("something went wrong while deleting the category");
-      });
+            //call the API to delete
+        deleteCategoryById(categoryId)
+          .then((response) => {
+            console.log(response);
+            toast.success("success fully deleted the category");
+            setCategories((prev) =>
+              prev.filter((prev) => prev.categoryId !== categoryId)
+            );
+          })
+          .catch((error) => {
+            console.log("something went wrong");
+            toast.error("something went wrong while deleting the category");
+              });
   };
 
   // call the api to load data fromAPI
@@ -44,13 +44,13 @@ export const ViewCategories = () => {
 
   return (
     <>
-      {categories.map((currentData) => (
-        <CategoryView
-          key={currentData?.categoryId}
-          categoriesData={currentData}
-          handleCategoryDelete={handleCategoryDelete}
-        />
-      ))}
+      {        categories.map((currentData) => (
+          <CategoryView
+            key={currentData?.categoryId}
+            categoriesData={currentData}
+            handleCategoryDelete={handleCategoryDelete}
+          />
+        )      )}
     </>
   );
 };
