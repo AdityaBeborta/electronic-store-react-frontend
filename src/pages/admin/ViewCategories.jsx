@@ -8,12 +8,29 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { CustomLoader } from "../../components/common/CustomLoader";
 import { ViewCategoryModal } from "./ViewCategoryModal";
+import { EditCategoryModal } from "./EditCategoryModal";
 
 export const ViewCategories = () => {
-  // state variable for modal
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // state variable for modal -- view category
+  const [showCategoryView, setShowCategoryView] = useState(false);
+  const handleCloseCategoryView = () => setShowCategoryView(false);
+  const handleShowCategoryView = () => setShowCategoryView(true);
+
+  // state variable for modal -- edit category
+  const [showCategoryEdit, setShowCategoryEdit] = useState(false);
+  const handleCloseCategoryEdit = () => setShowCategoryEdit(false);
+  const handleShowCategoryEdit = () => setShowCategoryEdit(true);
+  // state varibles for category edit
+  const [formData, setFormData] = useState({
+    categoryTitle: "",
+    categoryDescription: "",
+    categoryCoverImage: "",
+  });
+
+  const handleModalDataResetForCategoryWithClose = () => {
+    handleCloseCategoryEdit();
+    setFormData(currentCategory);
+  };
   // state variable to show the loader
   const [loader, setLoader] = useState(false);
   // state variable to hold categories from API
@@ -36,16 +53,29 @@ export const ViewCategories = () => {
         toast.error("something went wrong while deleting the category");
       });
   };
+  // handler for edit form
+  // input field change handler
+  const handleFormInpuChange = (e) => {
+    console.log("fields are getting changed");
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   // handler for editing the category
-  const handleCategoryEdit = (categoryId) => {
-    console.log("handle category edit triggered with category id", categoryId);
+  const handleCategoryEdit = (categoryData) => {
+    // to turn on the pop up
+    handleShowCategoryEdit();
+    // set the current category to form data
+    setFormData(categoryData);
   };
 
   // handler for viewing category
   const handleCategoryView = (categoriesData) => {
     // to turn on the pop up
-    handleShow();
+    handleShowCategoryView();
     // set this category to current category
     setCurrentCategory(categoriesData);
     console.log("categories data", categoriesData);
@@ -101,9 +131,17 @@ export const ViewCategories = () => {
         </>
       )}
       <ViewCategoryModal
-        show={show}
-        handleClose={handleClose}
+        showCategoryView={showCategoryView}
+        handleCloseCategoryView={handleCloseCategoryView}
         currentCategory={currentCategory}
+      />
+      <EditCategoryModal
+        showCategoryEdit={showCategoryEdit}
+        handleModalDataResetForCategoryWithClose={
+          handleModalDataResetForCategoryWithClose
+        }
+        formData={formData}
+        handleFormInpuChange={handleFormInpuChange}
       />
     </>
   );

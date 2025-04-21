@@ -51,7 +51,7 @@ export const CategoryView = ({
               <Button
                 size="sm"
                 variant="primary"
-                onClick={() => handleCategoryEdit(categoriesData?.categoryId)}
+                onClick={() => handleCategoryEdit(categoriesData)}
               >
                 Edit
               </Button>

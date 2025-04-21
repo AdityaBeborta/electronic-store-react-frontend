@@ -1,6 +1,10 @@
 import { Button, Container, Modal } from "react-bootstrap";
 import image from "../../asserts/IMG_9190.JPG";
-export const ViewCategoryModal = ({ show, handleClose, currentCategory }) => {
+export const ViewCategoryModal = ({
+  showCategoryView,
+  handleCloseCategoryView,
+  currentCategory,
+}) => {
   const imageStyle = {
     width: "100px",
     height: "250px",
@@ -8,7 +12,11 @@ export const ViewCategoryModal = ({ show, handleClose, currentCategory }) => {
   };
   return (
     <>
-      <Modal show={show} onHide={handleClose} className="text-center">
+      <Modal
+        show={showCategoryView}
+        onHide={handleCloseCategoryView}
+        className="text-center"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{currentCategory?.categoryTitle}</Modal.Title>
         </Modal.Header>
@@ -27,7 +35,7 @@ export const ViewCategoryModal = ({ show, handleClose, currentCategory }) => {
           {currentCategory?.categoryDescription}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseCategoryView}>
             Close
           </Button>
         </Modal.Footer>
