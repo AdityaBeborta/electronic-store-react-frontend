@@ -1,11 +1,16 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import image from "../../asserts/IMG_9190.JPG";
-export const CategoryView = ({ categoriesData, handleCategoryDelete }) => {
+export const CategoryView = ({
+  categoriesData,
+  handleCategoryDelete,
+  handleCategoryEdit,
+  handleCategoryView,
+}) => {
   const imageStyle = {
     width: "100px",
     height: "100px",
   };
-  
+
   return (
     <Card className="mb-2 border shadow">
       <Card.Body>
@@ -36,10 +41,18 @@ export const CategoryView = ({ categoriesData, handleCategoryDelete }) => {
               >
                 Delete
               </Button>
-              <Button size="sm" variant="success">
+              <Button
+                size="sm"
+                variant="success"
+                onClick={() => handleCategoryView(categoriesData)}
+              >
                 View
               </Button>
-              <Button size="sm" variant="primary">
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => handleCategoryEdit(categoriesData?.categoryId)}
+              >
                 Edit
               </Button>
             </Container>
