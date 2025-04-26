@@ -37,7 +37,7 @@ export const CategoryView = ({
                 size="sm"
                 variant="danger"
                 onClick={() => handleCategoryDelete(categoriesData?.categoryId)}
-                disabled={categoriesData?.products.length !== 0}
+                disabled={categoriesData?.products?.length !== 0}
               >
                 Delete
               </Button>

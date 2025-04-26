@@ -3,6 +3,7 @@ import {
   ADD_CATEGORY,
   DELETE_CATEGORY,
   FETCH_CATEGORY,
+  UPDATE_CATEGORY,
 } from "./helper.service";
 
 export const addCategory = (categoryData) => {
@@ -13,4 +14,8 @@ export const fetchCategories = () => {
 };
 export const deleteCategoryById = (categoryId) => {
   return privateAxios.delete(DELETE_CATEGORY + `${categoryId}`);
+};
+
+export const updateCategoryById = (categoryData) => {
+  return privateAxios.put(UPDATE_CATEGORY + `${categoryData.categoryId}`,categoryData);
 };

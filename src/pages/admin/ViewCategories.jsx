@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 import { CategoryView } from "./CategoryView";
 import {
   deleteCategoryById,
@@ -27,14 +27,33 @@ export const ViewCategories = () => {
     categoryCoverImage: "",
   });
 
-  const handleModalDataResetForCategoryWithClose = () => {
-    handleCloseCategoryEdit();
-    setFormData(currentCategory);
-  };
   // state variable to show the loader
   const [loader, setLoader] = useState(false);
   // state variable to hold categories from API
   const [categories, setCategories] = useState([]);
+  const handleModalDataUpdateForCategoryWithClose = (action) => {
+    handleCloseCategoryEdit();
+    if (action === "update") {
+      console.log("action value-->", action);
+
+      const updatedData = categories.map((currentElem) => {
+        if (currentElem?.categoryId === formData?.categoryId) {
+          currentElem.categoryTitle = formData.categoryTitle;
+          currentElem.categoryDescription = formData.categoryDescription;
+          currentElem.categoryCoverImage = formData.categoryCoverImage;
+          // Only if products are provided, update them
+          if (formData.products && Array.isArray(formData.products)) {
+            currentElem.products = formData.products;
+          }
+        }
+        return currentElem;
+      });
+  
+      setCategories(updatedData);
+      return;
+    }
+    setFormData(currentCategory);
+  };
   //state variable to hold current category
   const [currentCategory, setCurrentCategory] = useState(null);
   //handler for deleting the categories
@@ -68,6 +87,8 @@ export const ViewCategories = () => {
   const handleCategoryEdit = (categoryData) => {
     // to turn on the pop up
     handleShowCategoryEdit();
+    // set the current category to the category which we are passing
+    setCurrentCategory(categoryData);
     // set the current category to form data
     setFormData(categoryData);
   };
@@ -137,8 +158,8 @@ export const ViewCategories = () => {
       />
       <EditCategoryModal
         showCategoryEdit={showCategoryEdit}
-        handleModalDataResetForCategoryWithClose={
-          handleModalDataResetForCategoryWithClose
+        handleModalDataUpdateForCategoryWithClose={
+          handleModalDataUpdateForCategoryWithClose
         }
         formData={formData}
         handleFormInpuChange={handleFormInpuChange}
