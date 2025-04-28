@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { VALID_FILE_EXTENSIONS } from "../../services/helper.service";
+import { toast } from "react-toastify";
 
 export const AddProduct = () => {
   //state for holding product details
@@ -18,13 +20,38 @@ export const AddProduct = () => {
   //product input handler
   const handleProductInputChange = (e) => {
     console.log("handle product change triggered");
-    const { name, value, checked, type } = e.target;
+    const { name, value, checked, type, files } = e.target;
+
     setProduct({
       ...product,
       [name]: type === "checkbox" ? checked : value,
     });
   };
-  //   product form submit handler
+  //product image handler
+
+  const handleProductImage = (e) => {
+    const { files, name } = e.target;
+    if (files) {
+      const file = files[0];
+      console.table(files);
+      //extract the files
+      var fileName = file?.name;
+      var fileType = file?.type.split("/")[1];
+      //validate the file type
+      if (!VALID_FILE_EXTENSIONS.includes(fileType)) {
+        toast.error("invalid file extension");
+        return;
+      }
+      //preview the image
+      setProduct((prevData) => ({
+        ...prevData,
+        [name]: file, // set the file object
+        imagePreview: URL.createObjectURL(file), // create a local preview URL
+      }));
+    }
+  };
+
+  //product form submit handler
   const handleProductSubmit = (e) => {
     console.log("product submit triggered");
     e.preventDefault();
@@ -129,9 +156,17 @@ export const AddProduct = () => {
                 </Row>
               </Card.Body>
             </Card>
+            <Form.Group>
+              <Form.Label>Image preview</Form.Label>
+              <img className="img-fluid" src={product?.imagePreview} />
+            </Form.Group>
             <Form.Group className="mt-2">
               <Form.Label>Please select the product image</Form.Label>
-              <Form.Control type="file" name="productImageName" />
+              <Form.Control
+                type="file"
+                name="productImageName"
+                onChange={handleProductImage}
+              />
             </Form.Group>
             <div className="text-center mt-2">
               <Button type="submit" variant="success">
