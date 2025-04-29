@@ -16,3 +16,5 @@ export const VALID_FILE_EXTENSIONS = [
   "JPG",
   "PNG",
 ];
+export const ADD_PRODUCT_WITHOUT_CATEGORY = "/product/v1/addProduct";
+export const ADD_PRODUCT_IMAGE = "/product/v1/uploadOrUpdateProductImage/";

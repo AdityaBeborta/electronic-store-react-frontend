@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { VALID_FILE_EXTENSIONS } from "../../services/helper.service";
 import { toast } from "react-toastify";
+import {
+  addImageToExistingProduct,
+  addProductWithOutCategory,
+} from "../../services/product.service";
 
 export const AddProduct = () => {
   //state for holding product details
@@ -15,7 +19,7 @@ export const AddProduct = () => {
     addedDate: "",
     live: false,
     stock: true,
-    productImageName: "",
+    productImageName: null,
   });
   //product input handler
   const handleProductInputChange = (e) => {
@@ -30,7 +34,7 @@ export const AddProduct = () => {
   //product image handler
 
   const handleProductImage = (e) => {
-    const { files, name } = e.target;
+    const { files } = e.target;
     if (files) {
       const file = files[0];
       console.table(files);
@@ -45,7 +49,7 @@ export const AddProduct = () => {
       //preview the image
       setProduct((prevData) => ({
         ...prevData,
-        [name]: file, // set the file object
+        image: file, // set the file object
         imagePreview: URL.createObjectURL(file), // create a local preview URL
       }));
     }
@@ -57,6 +61,27 @@ export const AddProduct = () => {
     e.preventDefault();
     // form data
     console.table(product);
+    // add product without category
+    addProductWithOutCategory(product)
+      .then((res) => {
+        console.table(res);
+        toast.success("product added successfully");
+        //since product is added successfully call the image api
+        addImageToExistingProduct(res?.data?.productId, product?.image)
+          .then((res) => {
+            console.log(res);
+            
+            toast.success("image uploaded successfully");
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+          });
+      })
+      .catch((error) => {
+        console.table(error);
+        toast.error("something went wrong while updating product");
+      });
   };
 
   return (
@@ -156,17 +181,17 @@ export const AddProduct = () => {
                 </Row>
               </Card.Body>
             </Card>
-            <Form.Group>
-              <Form.Label>Image preview</Form.Label>
-              <img className="img-fluid" src={product?.imagePreview} />
-            </Form.Group>
+            {product?.imagePreview && (
+              <>
+                <Form.Group>
+                  <Form.Label>Image preview</Form.Label>
+                  <img className="img-fluid" src={product?.imagePreview} />
+                </Form.Group>
+              </>
+            )}
             <Form.Group className="mt-2">
               <Form.Label>Please select the product image</Form.Label>
-              <Form.Control
-                type="file"
-                name="productImageName"
-                onChange={handleProductImage}
-              />
+              <Form.Control type="file" onChange={handleProductImage} />
             </Form.Group>
             <div className="text-center mt-2">
               <Button type="submit" variant="success">
