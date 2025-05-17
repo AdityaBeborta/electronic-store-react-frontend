@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { VALID_FILE_EXTENSIONS } from "../../services/helper.service";
+import {
+  FETCH_CATEGORY,
+  VALID_FILE_EXTENSIONS,
+} from "../../services/helper.service";
 import { toast } from "react-toastify";
 import {
   addImageToExistingProduct,
+  addProductWithCategory,
   addProductWithOutCategory,
 } from "../../services/product.service";
+import { fetchCategories } from "../../services/categories.service";
 
 export const AddProduct = () => {
   //state for holding product details
@@ -21,6 +26,11 @@ export const AddProduct = () => {
     stock: true,
     productImageName: null,
   });
+  // state to handle categories
+  const [allCategories, setAllCategories] = useState([]);
+  // state to maintain current category selected
+  const [currentCategorySelectedId, setCurrentCategorySelectedId] =
+    useState("");
   //product input handler
   const handleProductInputChange = (e) => {
     console.log("handle product change triggered");
@@ -61,8 +71,13 @@ export const AddProduct = () => {
     e.preventDefault();
     // form data
     console.table(product);
+    // if category is empty then throw like cannot be empty
+    if (currentCategorySelectedId === "") {
+      toast.error("please select a category from dropdown");
+      return;
+    }
     // add product without category
-    addProductWithOutCategory(product)
+    addProductWithCategory(product, currentCategorySelectedId)
       .then((res) => {
         console.table(res);
         toast.success("product added successfully");
@@ -70,8 +85,21 @@ export const AddProduct = () => {
         addImageToExistingProduct(res?.data?.productId, product?.image)
           .then((res) => {
             console.log(res);
-            
+
             toast.success("image uploaded successfully");
+            setCurrentCategorySelectedId("");
+            setProduct({
+              title: "",
+              description: "",
+              price: 0,
+              discountedPrice: 0,
+              addedDate: "",
+              live: false,
+              stock: false,
+              productImageName: "",
+              image: "",
+              imagePreview: "",
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -83,6 +111,28 @@ export const AddProduct = () => {
         toast.error("something went wrong while updating product");
       });
   };
+
+  // handler for category dropdown
+  const handleCategotyDropdown = (e) => {
+    console.log("category dropdown triggered");
+    setCurrentCategorySelectedId(e.target.value);
+  };
+
+  // load categories on page
+  useEffect(() => {
+    console.log("Add Product component rendered");
+    //fetch all categories
+    fetchCategories()
+      .then((res) => {
+        console.log("fetch category was successful");
+        console.log(res);
+        setAllCategories(res?.data?.content);
+      })
+      .catch((error) => {
+        console.log("something went wrong while fetching the categories");
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -100,6 +150,26 @@ export const AddProduct = () => {
                 value={product?.title}
                 onChange={handleProductInputChange}
               />
+            </Form.Group>
+            {/* category */}
+            <Form.Group>
+              <Form.Label>Select Category</Form.Label>
+              <Form.Select onChange={handleCategotyDropdown}>
+                <option>Open this select menu</option>
+                {allCategories &&
+                  allCategories.map((currentEle) => {
+                    return (
+                      <>
+                        <option
+                          key={currentEle?.categoryId}
+                          value={currentEle?.categoryId}
+                        >
+                          {currentEle?.categoryTitle}
+                        </option>
+                      </>
+                    );
+                  })}
+              </Form.Select>
             </Form.Group>
             {/* product description */}
             <Form.Group>
